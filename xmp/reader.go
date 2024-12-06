@@ -44,14 +44,16 @@ func Scan(r io.Reader) (*Document, error) {
 func ScanPackets(r io.Reader) ([][]byte, error) {
 	packets := make([][]byte, 0)
 	s := bufio.NewScanner(r)
+	buf := make([]byte, 1024*100)
+	s.Buffer(buf, 0)
 	s.Split(splitPacket)
 	for s.Scan() {
 		b := s.Bytes()
-		if isXmpPacket(b) {
-			x := make([]byte, len(b))
-			copy(x, b)
-			packets = append(packets, x)
-		}
+		// if isXmpPacket(b) {
+		x := make([]byte, len(b))
+		copy(x, b)
+		packets = append(packets, x)
+		// }
 	}
 	if err := s.Err(); err != nil {
 		return nil, err
@@ -62,13 +64,15 @@ func ScanPackets(r io.Reader) ([][]byte, error) {
 	return packets, nil
 }
 
-var packet_start = []byte("<?xpacket begin")
-var packet_end = []byte("<?xpacket end")       // plus suffix `"w"?>`
-var magic = []byte("W5M0MpCehiHzreSzNTczkc9d") // len 24
+// var packet_start = []byte("<?xpacket begin")
+// var packet_end = []byte("<?xpacket end")       // plus suffix `"w"?>`
+// var magic = []byte("W5M0MpCehiHzreSzNTczkc9d") // len 24
+var packet_start = []byte("<x:xmpmeta")
+var packet_end = []byte("</x:xmpmeta>")
 
-func isXmpPacket(b []byte) bool {
-	return bytes.Index(b[:51], magic) > -1
-}
+// func isXmpPacket(b []byte) bool {
+// 	return bytes.Index(b[:51], magic) > -1
+// }
 
 func splitPacket(data []byte, atEOF bool) (advance int, token []byte, err error) {
 	start := bytes.Index(data, packet_start)
@@ -80,7 +84,7 @@ func splitPacket(data []byte, atEOF bool) (advance int, token []byte, err error)
 		return len(data), nil, nil
 	}
 	end := bytes.Index(data[start:], packet_end)
-	last := start + end + len(packet_end) + 6
+	last := start + end + len(packet_end) //+ 6
 	if end == -1 || last > len(data) {
 		if atEOF {
 			return len(data), nil, nil

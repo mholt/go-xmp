@@ -23,6 +23,8 @@ import (
 	"reflect"
 	"strconv"
 	"strings"
+
+	"golang.org/x/text/encoding/ianaindex"
 )
 
 type Unmarshaler interface {
@@ -44,8 +46,16 @@ type Decoder struct {
 }
 
 func NewDecoder(r io.Reader) *Decoder {
+	dec := xml.NewDecoder(r)
+	dec.CharsetReader = func(charset string, reader io.Reader) (io.Reader, error) {
+		enc, err := ianaindex.IANA.Encoding(charset)
+		if err != nil {
+			return nil, fmt.Errorf("charset %s: %s", charset, err.Error())
+		}
+		return enc.NewDecoder().Reader(reader), nil
+	}
 	return &Decoder{
-		d:        xml.NewDecoder(r),
+		d:        dec,
 		nodes:    make(NodeList, 0),
 		intNsMap: make(map[string]*Namespace),
 		extNsMap: make(map[string]*Namespace),
