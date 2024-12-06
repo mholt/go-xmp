@@ -24,7 +24,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
-	"github.com/trimmer-io/go-xmp/xmp"
+
+	"github.com/mholt/go-xmp/xmp"
 )
 
 // 1.2.3.1 Part

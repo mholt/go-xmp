@@ -18,12 +18,11 @@ import (
 	"encoding/json"
 	"testing"
 
-	_ "github.com/trimmer-io/go-xmp/models"
-	"github.com/trimmer-io/go-xmp/xmp"
+	_ "github.com/mholt/go-xmp/models"
+	"github.com/mholt/go-xmp/xmp"
 )
 
 // Benchmarks
-//
 func BenchmarkUnmarshalXMP_5kB(B *testing.B)  { runUnmarshalXmpBench(B, []byte(data_5kb)) }
 func BenchmarkMarshalXMP_5kB(B *testing.B)    { runMarshalXmpBench(B, []byte(data_5kb)) }
 func BenchmarkMarshalJSON_5kB(B *testing.B)   { runMarshalJsonBench(B, []byte(data_5kb)) }

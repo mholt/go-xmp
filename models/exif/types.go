@@ -24,7 +24,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/trimmer-io/go-xmp/xmp"
+	"github.com/mholt/go-xmp/xmp"
 )
 
 const EXIF_DATE_FORMAT = "2006:01:02 15:04:05"

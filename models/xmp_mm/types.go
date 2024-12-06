@@ -16,8 +16,8 @@
 package xmpmm
 
 import (
-	"github.com/trimmer-io/go-xmp/models/xmp_dm"
-	"github.com/trimmer-io/go-xmp/xmp"
+	xmpdm "github.com/mholt/go-xmp/models/xmp_dm"
+	"github.com/mholt/go-xmp/xmp"
 )
 
 // Part 1: 8.2.2.9 ResourceRef + Part 2: 1.2.4.1 ResourceRef

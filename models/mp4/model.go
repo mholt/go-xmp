@@ -17,8 +17,9 @@ package mp4
 
 import (
 	"fmt"
-	"github.com/trimmer-io/go-xmp/models/qt"
-	"github.com/trimmer-io/go-xmp/xmp"
+
+	"github.com/mholt/go-xmp/models/qt"
+	"github.com/mholt/go-xmp/xmp"
 )
 
 var (

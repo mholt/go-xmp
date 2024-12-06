@@ -29,8 +29,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/trimmer-io/go-xmp/models/xmp_dm"
-	"github.com/trimmer-io/go-xmp/xmp"
+	xmpdm "github.com/mholt/go-xmp/models/xmp_dm"
+	"github.com/mholt/go-xmp/xmp"
 )
 
 const (
@@ -104,7 +104,6 @@ func (x Date23) MarshalText() ([]byte, error) {
 }
 
 // TCON
-//
 type GenreV1 byte
 
 func (x *GenreV1) UnmarshalText(data []byte) error {
@@ -254,7 +253,6 @@ func (x *MarkerList) UnmarshalXMP(d *xmp.Decoder, node *xmp.Node, m xmp.Model) e
 }
 
 // SYLT
-//
 type TimedLyrics struct {
 	Lang   string        `xmp:"id3:lang,attr"`
 	Type   LyricsType    `xmp:"id3:type,attr"`
@@ -280,10 +278,9 @@ func (x *TimedLyricsArray) UnmarshalXMP(d *xmp.Decoder, node *xmp.Node, m xmp.Mo
 // - one id3 frame per language and content type
 // - null-terminated text followed by a timestamp and optionally newline
 //
-//    "Strang" $00 xx xx "ers" $00 xx xx " in" $00 xx xx " the" $00 xx xx
-//    " night" $00 xx xx 0A "Ex" $00 xx xx "chang" $00 xx xx "ing" $00 xx
-//    xx "glan" $00 xx xx "ces" $00 xx xx
-//
+//	"Strang" $00 xx xx "ers" $00 xx xx " in" $00 xx xx " the" $00 xx xx
+//	" night" $00 xx xx 0A "Ex" $00 xx xx "chang" $00 xx xx "ing" $00 xx
+//	xx "glan" $00 xx xx "ces" $00 xx xx
 func (x *TimedLyricsArray) UnmarshalText(data []byte) error {
 	// TODO: need samples
 	return nil
@@ -309,7 +306,6 @@ func (x *TimedTextList) UnmarshalXMP(d *xmp.Decoder, node *xmp.Node, m xmp.Model
 }
 
 // COMM
-//
 type Comment struct {
 	Lang string `xmp:"id3:lang,attr"`
 	Type string `xmp:"id3:type,attr"`
@@ -339,7 +335,6 @@ func (x *CommentArray) UnmarshalXMP(d *xmp.Decoder, node *xmp.Node, m xmp.Model)
 }
 
 // RVA2
-//
 type VolumeAdjust struct {
 	Channel    ChannelType `xmp:"id3:channel,attr"`
 	Adjustment float32     `xmp:"id3:adjust,attr"`
@@ -367,7 +362,6 @@ func (x *VolumeAdjustArray) UnmarshalXMP(d *xmp.Decoder, node *xmp.Node, m xmp.M
 }
 
 // EQU2
-//
 type Equalization struct {
 	Method         EqualizationMethod  `xmp:"id3:method,attr"`
 	Identification string              `xmp:"id3:id,attr"`
@@ -432,7 +426,6 @@ func (x *Reverb) UnmarshalText(data []byte) error {
 }
 
 // APIC
-//
 type AttachedPicture struct {
 	Mimetype    string      `xmp:"id3:mimetype,attr"`
 	Type        PictureType `xmp:"id3:pictureType,attr"`
@@ -460,7 +453,6 @@ func (x *AttachedPictureArray) UnmarshalXMP(d *xmp.Decoder, node *xmp.Node, m xm
 }
 
 // GEOB
-//
 type EncapsulatedObject struct {
 	Mimetype    string `xmp:"id3:mimetype,attr"`
 	Filename    string `xmp:"id3:filename,attr"`
@@ -488,7 +480,6 @@ func (x *EncapsulatedObjectArray) UnmarshalXMP(d *xmp.Decoder, node *xmp.Node, m
 }
 
 // POPM
-//
 type Popularimeter struct {
 	Email   string `xmp:"id3:email,attr"`
 	Rating  byte   `xmp:"id3:rating,attr"`
@@ -515,7 +506,6 @@ func (x *PopularimeterArray) UnmarshalXMP(d *xmp.Decoder, node *xmp.Node, m xmp.
 }
 
 // RBUF
-//
 type BufferSize struct {
 	BufferSize int64 `xmp:"id3:bufferSize,attr"`
 	Flag       byte  `xmp:"id3:flag,attr"`
@@ -528,7 +518,6 @@ func (x *BufferSize) UnmarshalText(data []byte) error {
 }
 
 // AENC
-//
 type AudioEncryption struct {
 	Owner          string `xmp:"id3:owner,attr"`
 	PreviewStart   int    `xmp:"id3:previewStart,attr"`
@@ -542,7 +531,6 @@ func (x *AudioEncryption) UnmarshalText(data []byte) error {
 }
 
 // LINK
-//
 type Link struct {
 	LinkedID string         `xmp:"id3:linkedId,attr"`
 	Url      string         `xmp:"id3:url,attr"`
@@ -569,14 +557,12 @@ func (x *LinkArray) UnmarshalXMP(d *xmp.Decoder, node *xmp.Node, m xmp.Model) er
 }
 
 // POSS
-//
 type PositionSync struct {
 	Unit     PositionType `xmp:"id3:unit,attr"`
 	Position int64        `xmp:"id3:position,attr"`
 }
 
 // COMR
-//
 type Commercial struct {
 	Prices       PriceList      `xmp:"id3:prices"`
 	ValidUntil   Date23         `xmp:"id3:validUntil,attr"`
@@ -613,7 +599,6 @@ func (x *PriceList) UnmarshalXMP(d *xmp.Decoder, node *xmp.Node, m xmp.Model) er
 }
 
 // ENCR
-//
 type EncryptionMethod struct {
 	OwnerUrl xmp.Url `xmp:"id3:ownerUrl,attr"`
 	Method   byte    `xmp:"id3:method,attr"`
@@ -640,7 +625,6 @@ func (x *EncryptionMethodArray) UnmarshalXMP(d *xmp.Decoder, node *xmp.Node, m x
 }
 
 // GRID
-//
 type Group struct {
 	OwnerUrl xmp.Url `xmp:"id3:ownerUrl,attr"`
 	Symbol   byte    `xmp:"id3:symbol,attr"` // 0x80-0xF0
@@ -667,7 +651,6 @@ func (x *GroupArray) UnmarshalXMP(d *xmp.Decoder, node *xmp.Node, m xmp.Model) e
 }
 
 // PRIV
-//
 type PrivateData struct {
 	Owner string `xmp:"id3:owner,attr"`
 	Data  []byte `xmp:"id3:data"`
@@ -693,7 +676,6 @@ func (x *PrivateDataArray) UnmarshalXMP(d *xmp.Decoder, node *xmp.Node, m xmp.Mo
 }
 
 // SIGN
-//
 type Signature struct {
 	GroupSymbol byte   `xmp:"id3:groupSymbol,attr"` // 0x80-0xF0
 	Signature   []byte `xmp:"id3:signature"`
@@ -719,7 +701,6 @@ func (x *SignatureArray) UnmarshalXMP(d *xmp.Decoder, node *xmp.Node, m xmp.Mode
 }
 
 // ASPI
-//
 type AudioSeekIndex struct {
 	Start          int64       `xmp:"id3:start,attr"`
 	Length         int64       `xmp:"id3:length,attr"`
@@ -734,7 +715,6 @@ func (x *AudioSeekIndex) UnmarshalText(data []byte) error {
 }
 
 // CHAP
-//
 type Chapter xmpdm.Marker
 
 type ChapterList []Chapter
@@ -757,7 +737,6 @@ func (x *ChapterList) UnmarshalXMP(d *xmp.Decoder, node *xmp.Node, m xmp.Model) 
 }
 
 // CTOC
-//
 type TocEntry struct {
 	Flags  int            `xmp:"id3:flags"`
 	IDList xmp.StringList `xmp:"id3:idlist"`

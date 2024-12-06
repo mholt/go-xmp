@@ -12,7 +12,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/trimmer-io/go-xmp/xmp"
+	"github.com/mholt/go-xmp/xmp"
 )
 
 type LocationRole int
@@ -30,7 +30,6 @@ func (b Bool) Value() bool {
 }
 
 // defined to overwrite UnmarshalText, otherwise similar to xmp.AltString
-//
 type MultilangArray xmp.AltString
 
 func (x *MultilangArray) UnmarshalText(data []byte) error {

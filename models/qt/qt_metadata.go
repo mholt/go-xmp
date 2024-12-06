@@ -19,8 +19,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/trimmer-io/go-xmp/models/tiff"
-	"github.com/trimmer-io/go-xmp/xmp"
+	"github.com/mholt/go-xmp/models/tiff"
+	"github.com/mholt/go-xmp/xmp"
 )
 
 // QuickTime Metadata Keys written by the "mdta" handler using Reverse DNS names.
@@ -37,7 +37,6 @@ import (
 // VideoOrientation: like TIFF/EXIF Orientation property
 // AffineTransform: used in place of a track display matrix, 3x3 float matrix in row major order
 // Direction: degree offset from magnetic north
-//
 type QtMetadata struct {
 	// official metadata keys as defined in MacOS 10.11 SDK
 	Album                  string         `qt:"com.apple.quicktime.album"                                 qt:"©alb"      xmp:"qt:Album"`

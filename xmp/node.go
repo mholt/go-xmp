@@ -20,6 +20,7 @@ import (
 	"fmt"
 	"sort"
 	"strings"
+	"sync/atomic"
 )
 
 var (
@@ -80,14 +81,14 @@ func NewNode(name xml.Name) *Node {
 	var n *Node
 	select {
 	case n = <-nodePool: // Try to get one from the nodePool
-		npHits++
+		atomic.AddInt64(&npHits, 1)
 		n.XMLName = name
 		n.Attr = nil
 		n.Nodes = nil
 		n.Model = nil
 		n.Value = ""
 	default: // All in use, create a new, temporary:
-		npAllocs++
+		atomic.AddInt64(&npAllocs, 1)
 		n = &Node{
 			XMLName: name,
 			Attr:    nil,
@@ -111,9 +112,9 @@ func (n *Node) Close() {
 	n.Value = ""
 	select {
 	case nodePool <- n: // try to put back into the nodePool
-		npReturns++
+		atomic.AddInt64(&npReturns, 1)
 	default: // pool is full, will be garbage collected
-		npFrees++
+		atomic.AddInt64(&npFrees, 1)
 	}
 }
 
